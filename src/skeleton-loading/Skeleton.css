@@ -11,48 +11,26 @@
    position: relative + overflow: hidden son obligatorios
    para que el shimmer (::after) quede recortado dentro del bloque */
 .skeleton {
-    background-color: #e0e0e0; /*fondo gris claro para simula el contenido ausente */
+    background-color: #1e2533;
     border-radius: 4px;
-    position: relative;  /* necesario para posicionar el ::after adentro */
-    overflow: hidden;    /* recorta el shimmer cuando sale por los bordes */
+    position: relative;
+    overflow: hidden;
 }
 
-/* Pseudo-elemento que genera la luz deslizante (shimmer).
-   Se posiciona sobre todo el bloque (inset: 0) y se mueve
-   de izquierda a derecha con translateX. */
 .skeleton::after {
-    content: '';         /* obligatorio para que ::after se renderice */
+    content: '';
     position: absolute;
-    inset: 0;            /* equivale a top/right/bottom/left: 0 */
+    inset: 0;
     background: linear-gradient(
-            90deg,
-            transparent 0%,            /* borde izquierdo transparente */
-            rgba(255, 255, 255, 0.5) 50%, /*centro: destello blanco semitransparente */
-            transparent 100%           /*borde derecho: transparente */
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 50%,
+        transparent 100%
     );
-    animation: shimmer 1.5s infinite; /*repite la animacion cada 1.5s */
+    animation: shimmer 1.6s infinite;
 }
 
-/*animación: mueve el gradiente de -100% a +100% del ancho del bloque.
-   Empieza fuera por la izquierda y termina fuera por la derecha. */
 @keyframes shimmer {
-    from { transform: translateX(-100%); } /* inicia oculto a la izquierda */
-    to   { transform: translateX(100%);  } /* termina oculto a la derecha  */
-}
-
-/*dark mode: ajusta los colores para fondos oscuros.
-   El fondo pasa a gris oscuro y el destello es mucho mas sutil
-   (0.07 de opacidad en vez de 0.5) para no quemar el ojo. */
-@media (prefers-color-scheme: dark) {
-    .skeleton {
-        background-color: #2a2a2a;
-    }
-    .skeleton::after {
-        background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.07) 50%, /*destello muy tenue en dark mode */
-                transparent 100%
-        );
-    }
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%);  }
 }
