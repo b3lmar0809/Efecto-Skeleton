@@ -13,7 +13,7 @@ interface SkeletonProps {
     style?: React.CSSProperties; //estilos extra opcionales
 }
 
-export default function ({ width, height, circle, style }: SkeletonProps) {
+export default function Skeleton({ width, height, circle, style }: SkeletonProps) {
     return (
         <div
         className="skeleton"
