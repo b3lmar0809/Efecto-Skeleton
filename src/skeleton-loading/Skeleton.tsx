@@ -6,6 +6,8 @@
  * @since 1.0.0 - 20 may. 2026
  *
  **/
+import './Skeleton.css';
+
 interface SkeletonProps {
     width?: string | number; //ej: "70%", 200 default: "100%"
     height?: string | number;//ej: 12, "1rem" default: 16px
