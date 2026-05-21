@@ -7,35 +7,30 @@
  *
  **/
 
-// ─── UserCardSkeleton.tsx ──────────────────────────────────────────────────────
-// Skeleton específico para una tarjeta de perfil de usuario.
-// La regla de oro: debe tener EXACTAMENTE la misma estructura y tamaños
-// que el componente <UserCard> real para evitar saltos visuales al cargar.
-// ──────────────────────────────────────────────────────────────────────────────
+/*UserCardSkeleton.tsx
+ Skeleton específico para una tarjeta de perfil de usuario.
+ La regla de oro: debe tener EXACTAMENTE la misma estructura y tamaños
+ que el componente <UserCard> real para evitar saltos visuales al cargar.
+*/
 import Skeleton from './Skeleton';
 
 export default function UserCardSkeleton() {
     return (
-        <div style={{ padding: '1.25rem', border: '1px solid #eee', borderRadius: 12 }}>
+        <div style={{ background: '#161b27', border: '1px solid #1f2a3c', borderRadius: 16, overflow: 'hidden' }}>
+            {/* Franja de header */}
+            <Skeleton width="100%" height={64} style={{ borderRadius: 0 }} />
 
-            {/* Fila superior: avatar circular + dos líneas de texto (nombre y rol) */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-                {/* Avatar — circle=true aplica border-radius 50% */}
-                <Skeleton circle width={44} height={44} />
+            <div style={{ padding: '0 1.25rem 1.25rem', marginTop: -28 }}>
+                {/* Avatar superpuesto */}
+                <Skeleton circle width={52} height={52} style={{ border: '3px solid #161b27' }} />
 
-                {/* Bloque de nombre y rol al lado del avatar */}
-                <div style={{ flex: 1 }}>
-                    <Skeleton width="65%" height={14} style={{ marginBottom: 8 }} /> {/* nombre */}
-                    <Skeleton width="40%" height={12} />                              {/* rol/cargo */}
-                </div>
+                <Skeleton width="55%" height={14} style={{ marginTop: 10, marginBottom: 8 }} />
+                <Skeleton width="35%" height={12} style={{ borderRadius: 999 }} />
+
+                <Skeleton width="100%" height={11} style={{ marginTop: 16, marginBottom: 6 }} />
+                <Skeleton width="85%"  height={11} style={{ marginBottom: 6 }} />
+                <Skeleton width="60%"  height={11} />
             </div>
-
-            {/* Párrafo de bio: tres líneas con anchos distintos para simular texto real.
-          La última línea más corta imita el final natural de un párrafo. */}
-            <Skeleton width="100%" height={12} style={{ marginBottom: 8 }} />
-            <Skeleton width="90%"  height={12} style={{ marginBottom: 8 }} />
-            <Skeleton width="60%"  height={12} />
-
         </div>
     );
 }
