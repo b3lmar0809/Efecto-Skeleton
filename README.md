@@ -4,6 +4,36 @@ Panel de administración demo que muestra el patrón **skeleton loading** en Rea
 
 ---
 
+## ¿Qué es skeleton loading?
+
+Es una técnica de UX que consiste en mostrar una silueta del contenido mientras los datos todavía están cargando. En lugar de ver una pantalla en blanco o un spinner genérico, el usuario ve la forma exacta de lo que va a aparecer — tarjetas, textos, imágenes — pero en gris y con un efecto de brillo animado.
+
+Lo usan plataformas como YouTube, LinkedIn y Facebook para que la app se sienta rápida incluso cuando el servidor tarda en responder.
+
+---
+
+## Vista previa
+
+> Screenshot próximamente
+
+---
+
+## Requisitos previos
+
+Antes de instalar, asegurate de tener:
+
+- [Node.js](https://nodejs.org/) v18 o superior
+- npm (viene incluido con Node.js)
+
+Podés verificar tu versión con:
+
+```bash
+node -v
+npm -v
+```
+
+---
+
 ## Tecnologías
 
 - [React 19](https://react.dev/)
@@ -65,6 +95,61 @@ Cada skeleton replica **exactamente** la estructura y tamaños del componente re
 | `UserCardSkeleton`     | `<UserCard>`    |
 | `ProductCardSkeleton`  | `<ProductGrid>` |
 | `ListRowSkeleton`      | `<SalesList>`   |
+
+---
+
+## Cómo funciona el efecto shimmer (CSS)
+
+El efecto de brillo animado está construido enteramente en CSS, sin JavaScript. Se aplica a través de la clase `.skeleton` en `Skeleton.css`.
+
+### 1. El bloque base
+
+```css
+.skeleton {
+    background-color: #1e2533;
+    position: relative;
+    overflow: hidden;
+}
+```
+
+`position: relative` y `overflow: hidden` son obligatorios. El shimmer es un pseudo-elemento que se mueve dentro del bloque, y `overflow: hidden` lo recorta para que no se desborde por los costados. Sin esto, el brillo cruzaría toda la pantalla.
+
+### 2. El pseudo-elemento que hace el brillo
+
+```css
+.skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.06) 50%,
+        transparent 100%
+    );
+    animation: shimmer 1.6s infinite;
+}
+```
+
+- `content: ''` es obligatorio para que el pseudo-elemento exista, aunque esté vacío.
+- `position: absolute` + `inset: 0` lo estira para cubrir todo el bloque padre.
+- El gradiente va de `transparent` → blanco al **6% de opacidad** → `transparent`. Ese porcentaje tan bajo es intencional: el brillo tiene que ser sutil, apenas perceptible, no un flash brillante.
+- `90deg` lo hace horizontal, de izquierda a derecha.
+
+### 3. La animación
+
+```css
+@keyframes shimmer {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(100%);  }
+}
+```
+
+El gradiente empieza completamente fuera del bloque a la izquierda (`-100%`) y viaja hasta salir por la derecha (`100%`). Como el padre tiene `overflow: hidden`, el gradiente queda invisible hasta que entra al bloque, cruza y vuelve a desaparecer. Eso crea la ilusión de un destello que recorre el elemento de forma continua.
+
+### Por qué `transform` y no `left`
+
+Usar `transform: translateX()` en lugar de cambiar `left` o `margin` es una decisión de rendimiento. Las propiedades `transform` y `opacity` son las únicas que el navegador puede animar en el **compositor** (GPU), sin recalcular el layout de la página en cada frame. Animar `left` forzaría un recálculo de layout 60 veces por segundo, lo que en listas largas de skeletons causaría caídas de FPS.
 
 ---
 
