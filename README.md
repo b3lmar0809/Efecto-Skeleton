@@ -23,13 +23,19 @@ Lo usan plataformas como YouTube, LinkedIn y Facebook para que la app se sienta 
 Antes de instalar, asegurate de tener:
 
 - [Node.js](https://nodejs.org/) v18 o superior
-- npm (viene incluido con Node.js)
+- [pnpm](https://pnpm.io/) v8 o superior
 
 Podés verificar tu versión con:
 
 ```bash
 node -v
-npm -v
+pnpm -v
+```
+
+Si no tenés pnpm instalado:
+
+```bash
+npm install -g pnpm
 ```
 
 ---
@@ -156,8 +162,8 @@ Usar `transform: translateX()` en lugar de cambiar `left` o `margin` es una deci
 ## Instalación
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Abre [http://localhost:5173](http://localhost:5173). Usá el botón **Recargar** para disparar las peticiones nuevamente y ver el efecto skeleton.
